@@ -28,6 +28,7 @@ foreach(dir
     Nature
     Olympics
     Planes
+    Schlosspark
     Sheep
     Snow
     Stage

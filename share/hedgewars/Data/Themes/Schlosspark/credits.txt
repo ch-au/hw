@@ -1,0 +1,1 @@
+Schlosspark theme: sky, hills, land texture and icon taken from Christian's own reference photos (tools/schlosspark/make_photo.py); clouds and leaves generated. Chunk.png and Girder.png reused from the Castle theme.

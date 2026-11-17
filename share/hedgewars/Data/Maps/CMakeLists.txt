@@ -23,6 +23,7 @@ foreach(dir
     HedgeFortress
     Hedgelove
     Hedgewars
+    Hochhaus
     Hogville
     Hydrant
     Islands
@@ -43,6 +44,7 @@ foreach(dir
     SB_Oaks
     SB_Shrooms
     SB_Tentacles
+    Schloss
     Sheep
     ShoppaKing
     Sticks
