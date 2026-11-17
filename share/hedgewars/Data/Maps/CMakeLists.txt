@@ -43,6 +43,7 @@ foreach(dir
     SB_Oaks
     SB_Shrooms
     SB_Tentacles
+    Schlosspark
     Sheep
     ShoppaKing
     Sticks
