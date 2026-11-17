@@ -1,31 +1,36 @@
-# Schlosspark: Generator für Theme, Karte und Karnevals-Hüte
+# Schlosspark: zwei Foto-Karten, Theme und Karnevals-Hüte
 
-Alles hier ist per Code gezeichnet (pycairo), im Cartoon-Stil mit dicken Konturen.
-Vorlagen waren zwei Fotos: ein Sandstein-Schloss mit großem Turm und eine
-Hochhaussiedlung vor bewaldeten Hügeln. Es wurden keine fremden Spielgrafiken verwendet.
+## Karten
 
-Erzeugt:
+- **Schloss** (`Data/Maps/Schloss`, 2848x2048): das Schloss aus Christians Foto, freigestellt (Himmel und Bäume entfernt), auf einem Erdsockel.
+- **Hochhaus** (`Data/Maps/Hochhaus`, 3450x2048): die Hochhaussiedlung mit dem Wald davor aus dem zweiten Foto, ca. 2,6-fach vergrößert.
 
-| Datei | Inhalt |
-|---|---|
-| `Data/Maps/Schlosspark/map.png` | 4096x2048, spielbares Terrain: Schloss mit Turm, Terrasse, Treppe, Park (links), Hochhaus-Siedlung im Wald (rechts), Wasserspalt dazwischen |
-| `Data/Themes/Schlosspark/` | Himmel, Horizont (Waldhügel, Stadt, ferne Hochhäuser in der Mitte; `horizontL/R` als Kacheln), Wolken, Sandstein-Texturen, Gras-Border, fallende Blätter, Icon |
-| `Data/Graphics/Hats/Narrenkappe.png` | Narrenkappe rot/weiß/blau/gelb |
-| `Data/Graphics/Hats/GardeDreispitz.png` | Garde-Dreispitz mit Feder und Kokarde |
-| `Data/Graphics/Hats/Gardeuniform.png` | Dreispitz plus Uniform-Brustteil (rot, weiße Kreuzbandeliere, goldene Epauletten) |
+Beide nutzen das Theme **Schlosspark**: Himmelsverlauf und Waldhügel stammen aus dem Hochhaus-Foto,
+die Land-Textur ist ein Stück Sandsteinmauer vom Schlossturm. Wolken und fallende Blätter sind generiert.
 
-Neu erzeugen (Python 3, `pip install pycairo numpy pillow`):
+## Neu erzeugen
+
+Python 3 mit `pip install pycairo numpy pillow scipy`. Die beiden Originalfotos liegen nicht im Repo.
+Lege sie in einen Ordner als `schloss.png` und `hochhaus.png`.
 
 ```
 cd tools/schlosspark
-python3 make_map.py   out/map
-python3 make_theme.py out/theme
-python3 make_hats.py  out/hats out/hats_preview.png
-python3 compose.py    out/mock_full.png out/mock_zoom.png   # grobe Vorschau
+export PHOTO_DIR=/pfad/zu/den/fotos
+mkdir -p out
+python3 seg_castle.py            # -> out/castle_cut.png (Freisteller Schloss)
+python3 seg_towers.py            # -> out/towers_cut.png (Freisteller Hochhäuser + Wald)
+python3 make_photo.py out/photo  # -> Karten Schloss/Hochhaus + Theme-Bilder
+python3 compose_photo.py         # grobe Vorschau mit Himmel/Horizont
+python3 make_theme.py out/theme  # nur noch für Flake.png (Blätter) gebraucht
+python3 make_hats.py out/hats out/hats_preview.png
 ```
 
-Danach `out/map/*`, `out/theme/*` und `out/hats/*` in die Data-Ordner kopieren.
+Die Freistellung kombiniert Farbschwellen mit von Hand gesetzten Polygonen (Dächer, Turmspitzen,
+Bäume neben dem Schloss). Wenn eine Kante nicht passt, dort die Polygon-Koordinaten anpassen.
+Die Koordinaten beziehen sich beim Schloss auf eine Breite von 2000 px, beim Hochhaus-Foto auf 1500x1000.
 
-Hinweis zur Gardeuniform: Hedgewars kennt nur Hüte (32x32 über dem Kopf), keine Körper-Kostüme.
-Die Uniform ist deshalb Teil des Hut-Sprites. Beim Zielen mit Waffen dreht das Spiel den Hut
-mit, dann sitzt das Brustteil nicht mehr ganz richtig. Der reine Dreispitz hat das Problem nicht.
+## Hüte
+
+`Narrenkappe`, `GardeDreispitz`, `Gardeuniform` in `Data/Graphics/Hats` (32x32).
+Hedgewars kennt nur Hüte, keine Körper-Kostüme. Das Uniform-Oberteil ist deshalb Teil des Hut-Sprites
+und sitzt beim Zielen etwas schief.

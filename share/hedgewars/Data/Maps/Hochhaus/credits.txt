@@ -1,0 +1,1 @@
+Hochhaus map: cut out of Christian's own reference photo by tools/schlosspark/make_photo.py
